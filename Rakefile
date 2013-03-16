@@ -24,11 +24,16 @@ Rake::TestTask.new(:test) do |test|
 end
 
 begin
-  require 'rcov/rcovtask'
-  Rcov::RcovTask.new do |test|
-    test.libs << 'test'
-    test.pattern = 'test/**/*_test.rb'
-    test.verbose = true
+  if RUBY_VERSION =~ /1.8/ then
+    require 'rcov/rcovtask'
+    Rcov::RcovTask.new do |test|
+      test.libs << 'test'
+      test.pattern = 'test/**/*_test.rb'
+      test.verbose = true
+    end
+  else
+    task :rcov => :test do
+    end
   end
 rescue LoadError
   task :rcov do
@@ -36,10 +41,9 @@ rescue LoadError
   end
 end
 
-
 task :default => :test
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   require 'yaml'
   if File.exist?('VERSION.yml')

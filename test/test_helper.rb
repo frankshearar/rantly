@@ -1,3 +1,10 @@
+if RUBY_VERSION =~ /1.8/ then
+  require 'rcov'
+else
+  require 'simplecov'
+  SimpleCov.start 'test_frameworks'
+end
+
 require 'rubygems'
 require 'test/unit'
 require 'shoulda'
