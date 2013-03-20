@@ -274,6 +274,15 @@ class RantlyTest::Generator < Test::Unit::TestCase
 #     }
 #   end
 
+  should "allow for shrinking of counterexamples" do
+    property_of {
+      integer
+    }.shrink { |i|
+      i.pred
+    }.check { |i|
+      assert i.is_a?(Integer)
+    }
+  end
 end
   
 
